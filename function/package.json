@@ -1,0 +1,14 @@
+{
+  "name": "appwrite-ai-assistant",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/main.mjs",
+  "scripts": {
+    "start": "node src/main.mjs"
+  },
+  "dependencies": {
+    "openai": "^4.0.0",
+    "node-fetch": "^3.0.0",
+    "node-appwrite": "^10.0.0"
+  }
+}

@@ -1,1 +1,49 @@
+<!doctype html>
+<html lang="fa">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>دستیار هوشمند</title>
+    <style>
+      body{font-family: 'Vazir', sans-serif;direction: rtl;padding:20px}
+      textarea{width:100%;height:120px}
+      .card{border:1px solid #ddd;padding:12px;border-radius:8px;margin-top:12px}
+    </style>
+  </head>
+  <body>
+    <h2>دستیار هوشمند (Appwrite + OpenAI)</h2>
+    <textarea id="prompt" placeholder="سوال خود را اینجا تایپ کنید..."></textarea>
+    <div style="margin-top:8px">
+      <button onclick="submitPrompt()">ارسال</button>
+    </div>
+    <div class="card">
+      <h4>پاسخ:</h4>
+      <div id="answer" style="white-space:pre-wrap;color:#222"></div>
+    </div>
+
+    <script>
+      async function submitPrompt() {
+        const prompt = document.getElementById('prompt').value;
+        if(!prompt) return alert('لطفا سوال بنویسید');
+        document.getElementById('answer').textContent = 'در حال پردازش...';
+        try {
+          const resp = await fetch('/', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ prompt })
+          });
+          const json = await resp.json();
+          if(!json.ok) {
+            document.getElementById('answer').textContent = 'خطا: ' + (json.error || 'نامشخص');
+          } else {
+            document.getElementById('answer').textContent = json.completion;
+          }
+        } catch (e) {
+          document.getElementById('answer').textContent = 'خطا در ارتباط با سرور';
+          console.error(e);
+        }
+      }
+    </script>
+  </body>
+</html>
 
